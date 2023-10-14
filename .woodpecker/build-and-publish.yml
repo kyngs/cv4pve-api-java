@@ -1,0 +1,12 @@
+steps:
+  publish:
+    image: "eclipse-temurin:11-alpine"
+    commands:
+      - "pkg install maven"
+      - "mvn publish -Drepo.login=$${KYNGS_REPO_TOKEN} -Drepo.pwd=$${KYNGS_REPO_SECRET}"
+    when:
+      - event: push
+        branch:
+          - master
+          - dev
+    secrets: [ kyngs_repo_token, kyngs_repo_secret ]
