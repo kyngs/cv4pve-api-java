@@ -3,7 +3,7 @@ steps:
     image: "eclipse-temurin:11-alpine"
     commands:
       - "apk update && apk add maven"
-      - "mvn publish -Drepo.login=$${KYNGS_REPO_TOKEN} -Drepo.pwd=$${KYNGS_REPO_SECRET}"
+      - "mvn deploy -Drepo.login=$${KYNGS_REPO_TOKEN} -Drepo.pwd=$${KYNGS_REPO_SECRET}"
     when:
       - event: push
         branch:
