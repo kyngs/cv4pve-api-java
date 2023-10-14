@@ -2,7 +2,7 @@ steps:
   publish:
     image: "eclipse-temurin:11-alpine"
     commands:
-      - "pkg install maven"
+      - "apk update && apk install maven"
       - "mvn publish -Drepo.login=$${KYNGS_REPO_TOKEN} -Drepo.pwd=$${KYNGS_REPO_SECRET}"
     when:
       - event: push
