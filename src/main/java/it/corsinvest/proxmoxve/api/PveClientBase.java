@@ -41,6 +41,7 @@ public class PveClientBase {
     private String _ticketPVEAuthCookie;
     private final String _hostname;
     private final int _port;
+    private int _timeout = 10000;
     private int _debugLevel;
     private Result _lastResult;
     private ResponseType _responseType = ResponseType.JSON;
@@ -95,8 +96,8 @@ public class PveClientBase {
      * @param username user name or &lt;username&gt;@&lt;realm&gt;
      * @param password password connection
      * @return boolean
-     * @throws JSONException 
-     * @throws PveExceptionAuthentication 
+     * @throws JSONException
+     * @throws PveExceptionAuthentication
      */
     public boolean login(String username, String password) throws JSONException, PveExceptionAuthentication {
         String realm = "pam";
@@ -224,6 +225,15 @@ public class PveClientBase {
      */
     public void setDebugLevel(int value) {
         _debugLevel = value;
+    }
+
+    /**
+     * Set read and connection timeout
+     *
+     * @param timeout The read and connection timeout in milliseconds
+     */
+    public void setTimeout(int timeout) {
+        this._timeout = timeout;
     }
 
     /**
@@ -386,6 +396,9 @@ public class PveClientBase {
                     break;
                 }
             }
+
+            httpCon.setReadTimeout(_timeout);
+            httpCon.setConnectTimeout(_timeout);
 
             if (getDebugLevel() >= 1) {
                 System.out.println("Method: " + httpMethod + " , Url: " + url);
